@@ -62,7 +62,26 @@
   [self registerAttribute:attr];                                              \
 }
 
+//------------------------------------------------------------------------------
 
+#define DSRegisterBoxedAttribute(NAME, TYPE, VALUE, STRAT) {                  \
+  TYPE buf = VALUE;                                                           \
+  NSNumber *valNum = [NSNumber value:&buf withObjCType:@encode(TYPE)];        \
+  DSRegisterAttribute(NAME, NSNumber, valNum, STRAT);                         \
+  [self rebindAttribute:@#NAME toProperty:@#NAME "Num"];                      \
+}
+
+#define DSSynthesizeBoxing(NAME, CAP_NAME, TYPE)                              \
+- (void) set ## CAP_NAME ## Num:(NSValue *)num {                              \
+  TYPE buf;                                                                   \
+  [num getValue:&buf];                                                        \
+  NAME = buf;                                                                 \
+}                                                                             \
+- (NSValue *) NAME ## Num {                                                   \
+  return [NSValue value:&NAME withObjCType:@encode(TYPE)];                    \
+}
+
+//------------------------------------------------------------------------------
 
 // Object should be of type: NSArray, NSDictionary, NSString, NSNumber
 @protocol DSSerializableValue <NSCopying>

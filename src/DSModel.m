@@ -240,6 +240,12 @@ static NSMutableDictionary *dsAttributeRegistry = nil;
   ((DSAttribute *)[attrs valueForKey:attr]).property = property;
 }
 
++ (void) rebindBoxedAttribute:(NSString *)attr toProperty:(NSString *)property {
+  NSMutableDictionary *attrs = [dsAttributeRegistry valueForKey:[self dstype]];
+  ((DSAttribute *)[attrs valueForKey:attr]).property =
+    [NSString stringWithFormat:@"%@Num", property];
+}
+
 + (void) registerAttribute:(DSAttribute *)attr {
 
   if (![attr isKindOfClass:[DSAttribute class]]) {

@@ -70,6 +70,7 @@
 - (id<DSModelContainer>) modelContainerForAttribute:(DSAttribute *)attr;
 
 + (void) rebindAttribute:(NSString *)attr toProperty:(NSString *)property;
++ (void) rebindBoxedAttribute:(NSString *)attr toProperty:(NSString *)property;
 + (void) registerAttribute:(DSAttribute *)attr;
 + (void) registerAttributes;
 
