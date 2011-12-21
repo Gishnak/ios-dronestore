@@ -72,13 +72,14 @@
 }
 
 #define DSSynthesizeBoxing(NAME, CAP_NAME, TYPE)                              \
-- (void) set ## CAP_NAME ## Num:(NSValue *)num {                              \
+- (void) set ## CAP_NAME ## Num:(NSNumber *)num {                             \
   TYPE buf;                                                                   \
   [num getValue:&buf];                                                        \
-  NAME = buf;                                                                 \
+  [self set ## CAP_NAME:buf];                                                 \
 }                                                                             \
-- (NSValue *) NAME ## Num {                                                   \
-  return [NSValue value:&NAME withObjCType:@encode(TYPE)];                    \
+- (NSNumber *) NAME ## Num {                                                  \
+  TYPE buf = [self NAME];                                                     \
+  return [NSNumber value:&buf withObjCType:@encode(TYPE)];                    \
 }
 
 //------------------------------------------------------------------------------
